@@ -42,7 +42,8 @@ all_tokens={
     '.':'DOT',
     ',':'COMMA',
     'main':'MAIN',
-    'cout':"COUT"
+    'cout':"COUT",
+    'public':'PUBLIC',
 }
 
 
@@ -59,3 +60,5 @@ double_operator_tokens={
 block_start_list=['{','[','(']
 
 block_end_list=['}',']',')']
+
+comment_sign_list=['//','/*','*/']

@@ -2,7 +2,7 @@ import tokens
 import string
 import pdb
 
-def generate_list_of_words(code) -> list:
+def generate_list_of_words(code:str) -> list:
     temp='' # it will appent char when it end by space or \n or any operatory
     temp_next_char=''
     temp_prev_char=''
@@ -15,39 +15,7 @@ def generate_list_of_words(code) -> list:
     single_line_comment=False
     
     for line in code:
-        for char in enumerate(line):
-            # if statement beging with // or /* its a comment
-            # if char[1]=='/' or comment_flag:
-            #     temp_next_char='' if comment_flag else line[char[0]+1]
-            #     if temp_next_char=='/':
-            #         single_line_comment=True
-            #         comment_flag=True
-            #         temp+=char[1]
-
-            #     elif temp_next_char=='*':
-            #         multi_line_comment=True
-            #         comment_flag=True
-            #         temp+=char
-
-            #     elif char=='/' and comment_flag and multi_line_comment:
-            #         temp_prev_char=temp_next_char=line[char[0]-1]
-            #         if temp_prev_char=='*':
-            #             multi_line_comment=False
-            #             comment_flag=False
-            #             temp+=char[1]
-            #             temp_list.append(temp)
-
-            #             temp=''
-                  
-            #     elif comment_flag and char=='\n' and single_line_comment:
-            #         single_line_comment=False
-            #         comment_flag=False
-            #         temp_list.append(temp)
-            #         temp=''
-
-            #     elif comment_flag:
-            #         temp+=char[1]
-                
+        for char in enumerate(line):                
             # check if the characker is an op or not
             if not tokens.all_tokens.get(char[1],False):  
                 temp+=char[1]
@@ -102,14 +70,16 @@ def generate_list_of_words(code) -> list:
 
     return word_list
 
-def is_id(value):
+
+def is_id(value:chr)->bool:
     return True if value[0] in string.ascii_letters else False
 
 
-def generate_token(list_of_words):
+def generate_token(list_of_words)->dict:
     token_dict={}
     temp_list=[]
     block_number=0
+    comment_flag=False
     last_block='Block(0)'
     line_detail=''
     block_stack=['Block(0)']
@@ -118,7 +88,15 @@ def generate_token(list_of_words):
         line_detail="Line{}".format(line[0])
         for word in line[1]:
             token=tokens.all_tokens.get(word,False)
-            if token:
+            
+            if comment_flag:
+                continue
+            elif word=='//':
+                if not comment_flag:
+                    temp='Comment'+' '+last_block
+                comment_flag=True
+
+            elif token:
                 if word in tokens.block_start_list:
                     block_number+=1
                     last_block="Block({})".format(block_number)
@@ -147,9 +125,15 @@ def generate_token(list_of_words):
                 else:
                     temp="Value"+" "+last_block
                     temp_list.append(temp)
+        
+        if comment_flag:
+            comment_flag=False
+            temp_list.append(temp)
+            temp=''
 
-        token_dict.update({line_detail:temp_list})
-        temp_list=[]
+        if temp_list:
+            token_dict.update({line_detail:temp_list})
+            temp_list=[]
     return token_dict 
 
 

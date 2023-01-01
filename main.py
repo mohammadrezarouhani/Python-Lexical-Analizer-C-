@@ -10,7 +10,6 @@ if __name__=='__main__':
 
     result=generate_list_of_words(file)
 
-
     re=generate_token(result)
     for i in re.items():
         print(i)
