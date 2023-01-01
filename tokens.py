@@ -2,13 +2,17 @@ from enum import Enum
 import pdb
 
 all_tokens={
+    '[':'START_BRAKET',
+    ']':'END_BRAKET',
+    '"':'QUETU',
     ' ':'SPACE',
-    '/n':'NEXT_LINE',
+    '\n':'NEXT_LINE',
     '(' :'STARTPARE',
     ')':'ENDPARE',
     '{':'STARTBRACE',
     '}':'ENDBRACE',
     ':':'COLON',
+    ';':'SEMI_COLON',
     '*':'MUL',
     '+':'PLUS',
     '-':'MINUS',
@@ -29,14 +33,21 @@ all_tokens={
     'float':'FLOAT',
     'double':'DOUBLE',
     'string':'STRING',
-    'return':'RETURN'
+    'return':'RETURN',
+    '.':'DOT',
+    ',':'COMMA'
 }
 
 
-compare_tokens={
+double_operator_tokens={
     '>':'GREATER',
     '<':'LOWER',
     '=':'EQUAL',
+    '|':'OR',
+    '&':'AND',
 }
 
-line_specifire={';':'SEMI_COLON'}
+comment_token={
+    '/':'SLASH',
+    '*':'STAR'
+}
