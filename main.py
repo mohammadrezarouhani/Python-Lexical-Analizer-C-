@@ -1,6 +1,7 @@
-import pdb
 from generate import generate_list_of_words,generate_token
-
+from PyQt5.QtWidgets import *
+from ui import App
+import sys
 
 
 if __name__=='__main__':
@@ -9,7 +10,11 @@ if __name__=='__main__':
         file=file.readlines()
 
     result=generate_list_of_words(file)
+    tocken_dict=generate_token(result)
 
-    re=generate_token(result)
-    for i in re.items():
-        print(i)
+    # for i in tocken_dict.items():
+    #     print(i)
+
+    app = QApplication(sys.argv)
+    ex = App(tocken_dict)
+    sys.exit(app.exec_())
