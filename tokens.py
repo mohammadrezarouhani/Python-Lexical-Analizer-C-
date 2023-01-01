@@ -2,6 +2,9 @@ from enum import Enum
 import pdb
 
 all_tokens={
+    '#include':'INCLUDE',
+    'using':'USING',
+    'namespace':'NAMESPACE',
     '[':'START_BRAKET',
     ']':'END_BRAKET',
     '"':'QUETU',
@@ -24,6 +27,8 @@ all_tokens={
     '>=':'GREATER_EQUAL',
     '<=':'LOWER_EQUAL',
     '||':'OR',
+    '<<':"DOUBLE_LW",
+    '>>':"DOUBLE_GT",
     '&&':'AND',
     'void':'VOID',
     'class':'CLASS',
@@ -35,7 +40,9 @@ all_tokens={
     'string':'STRING',
     'return':'RETURN',
     '.':'DOT',
-    ',':'COMMA'
+    ',':'COMMA',
+    'main':'MAIN',
+    'cout':"COUT"
 }
 
 
@@ -45,9 +52,10 @@ double_operator_tokens={
     '=':'EQUAL',
     '|':'OR',
     '&':'AND',
-}
-
-comment_token={
     '/':'SLASH',
     '*':'STAR'
 }
+
+block_start_list=['{','[','(']
+
+block_end_list=['}',']',')']

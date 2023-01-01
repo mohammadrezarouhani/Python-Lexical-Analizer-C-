@@ -1,4 +1,5 @@
 import tokens
+import string
 
 def generate_list_of_words(code) -> list:
     temp='' # it will appent char when it end by space or \n or any operatory
@@ -99,14 +100,56 @@ def generate_list_of_words(code) -> list:
 
     return word_list
 
+def is_id(value):
+    return True if value[0] in string.ascii_letters else False
+
 
 def generate_token(list_of_words):
-    token_file={}
-    block={}
+    token_dict={}
+    temp_list=[]
     block_number=0
+    last_block='Block(0)'
+    line_detail=''
+    block_stack=['Block(0)']
+
     for line in enumerate (list_of_words):
+        line_detail="Line{}".format(line[0])
         for word in line[1]:
-            if tokens.all_tokens.get(word,False):
+            token=tokens.all_tokens.get(word,False)
+            if token:
+                if word in tokens.block_start_list:
+                    block_number+=1
+                    last_block="Block({})".format(block_number)
+                    block_stack.append(last_block)
+                    temp=str(token)+" "+last_block
+                    temp_list.append(temp)
+
+                elif word in tokens.block_end_list:
+                    temp=str(token)+" "+last_block
+                    temp_list.append(temp)
+                    block_stack.pop()
+                    last_block=block_stack[len(block_stack)-1]
+                else:
+                    temp=str(token)+" "+last_block
+                    temp_list.append(temp)
+            else:
+                if word.startswith('"'):
+                    temp="String"+" "+last_block
+                    temp_list.append(temp)
+                elif word.startswith('//') or word.startswith('*/'):
+                    temp="Comment"+" "+last_block
+                    temp_list.append(temp)
+                elif is_id(word):
+                    temp="ID"+" "+last_block
+                    temp_list.append(temp)
+                else:
+                    temp="Value"+" "+last_block
+                    temp_list.append(temp)
+
+        token_dict.update({line_detail:temp_list})
+        temp_list=[]
+    return token_dict 
+
 
 
 
