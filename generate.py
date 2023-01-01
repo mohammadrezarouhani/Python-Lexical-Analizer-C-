@@ -1,9 +1,11 @@
 import tokens
 import string
+import pdb
 
 def generate_list_of_words(code) -> list:
     temp='' # it will appent char when it end by space or \n or any operatory
     temp_next_char=''
+    temp_prev_char=''
     temp_list=[]
     word_list=[]
     double_char_opr=False
@@ -14,38 +16,38 @@ def generate_list_of_words(code) -> list:
     
     for line in code:
         for char in enumerate(line):
-            
             # if statement beging with // or /* its a comment
-            # if char[1]=='/' or comment_flag: 
-            #     temp_next_char=line[char[0]+1]
-            #     if comment_flag and char[1]=='/':
-            #         pass
-
-            #     elif multi_line_comment and char[1]=='*':
-            #         temp_next_char=line[char[0]+1]
-            #         if temp_next_char=='/':
-            #             temp+='*/'
-            #             comment_flag=False
-            #             multi_line_comment=False
-            #             temp_list.append(temp)
-            #             temp=''
-            #             continue
-
-            #     elif single_line_comment and char[1]=='\n':
-            #         comment_flag=False
-            #         single_line_comment=False
-            #         temp_list.append(temp)
-            #         temp=''
-            #         continue
-
-            #     elif temp_next_char=='/':
-            #         comment_flag =True 
+            # if char[1]=='/' or comment_flag:
+            #     temp_next_char='' if comment_flag else line[char[0]+1]
+            #     if temp_next_char=='/':
             #         single_line_comment=True
+            #         comment_flag=True
+            #         temp+=char[1]
 
             #     elif temp_next_char=='*':
-            #         comment_flag=True
             #         multi_line_comment=True
+            #         comment_flag=True
+            #         temp+=char
 
+            #     elif char=='/' and comment_flag and multi_line_comment:
+            #         temp_prev_char=temp_next_char=line[char[0]-1]
+            #         if temp_prev_char=='*':
+            #             multi_line_comment=False
+            #             comment_flag=False
+            #             temp+=char[1]
+            #             temp_list.append(temp)
+
+            #             temp=''
+                  
+            #     elif comment_flag and char=='\n' and single_line_comment:
+            #         single_line_comment=False
+            #         comment_flag=False
+            #         temp_list.append(temp)
+            #         temp=''
+
+            #     elif comment_flag:
+            #         temp+=char[1]
+                
             # check if the characker is an op or not
             if not tokens.all_tokens.get(char[1],False):  
                 temp+=char[1]
@@ -64,7 +66,7 @@ def generate_list_of_words(code) -> list:
             # if its not a word or string or coment, it an operator like(+ * - ....)
             # if space or \n in comment or string it will not ignored
             else: 
-                if string_flag or comment_flag:
+                if string_flag:
                     temp+=char[1]
                     continue
                 # a word completed we added to list here 
@@ -94,7 +96,7 @@ def generate_list_of_words(code) -> list:
                 else:
                     temp_list.append(temp)
                     temp=''
-        if temp_list:
+        if temp_list :
             word_list.append(temp_list)
             temp_list=[]
 
