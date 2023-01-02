@@ -32,7 +32,8 @@ class App(QWidget):
             self.tableWidget.setVerticalHeaderItem(line[0],QTableWidgetItem(line[1][0]))
 
         for line in enumerate(token_dict.items()):
-            self.tableWidget.setItem(line[0],0, QTableWidgetItem(str(line[1][1])))
+            temp="\t,\t".join(line[1][1])
+            self.tableWidget.setItem(line[0],0, QTableWidgetItem(temp))
 
         self.tableWidget.horizontalHeader().setStretchLastSection(True)
         self.tableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)

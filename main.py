@@ -10,10 +10,11 @@ if __name__=='__main__':
         file=file.readlines()
 
     result=generate_list_of_words(file)
+
     tocken_dict=generate_token(result)
 
-    # for i in tocken_dict.items():
-    #     print(i)
+    for i in result:
+        print(i)
 
     app = QApplication(sys.argv)
     ex = App(tocken_dict)

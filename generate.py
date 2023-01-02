@@ -6,13 +6,11 @@ def generate_list_of_words(code:str) -> list:
     temp='' # it will appent char when it end by space or \n or any operatory
     temp_next_char=''
     temp_prev_char=''
-    temp_list=[]
+    temp_list=[]  
     word_list=[]
     double_char_opr=False
     string_flag=False
     comment_flag=False
-    multi_line_comment=False
-    single_line_comment=False
     
     for line in code:
         for char in enumerate(line):                
